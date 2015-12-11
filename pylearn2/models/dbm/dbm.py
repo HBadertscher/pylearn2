@@ -616,7 +616,12 @@ class DBM(Model):
             ch = layer.get_monitoring_channels_from_state(state)
             for key in ch:
                 rval['mf_' + layer.layer_name + '_' + key] = ch[key]
-
+	
+	# Calculate mean squared reconstruction error
+	errs = (self.reconstruct(X)-X)**2
+	reconstr_err = errs.mean()
+	rval['reconstr_err'] = reconstr_err
+	
         if len(history) > 1:
             prev_q = history[-2]
 
